@@ -26,18 +26,11 @@ const listOfUser = [
     })
     
     userRouter.get('/:id([0-9]{1})',(request, response)=>{
-        const pageId = Number(request.params.id)
-        
-        const userId = listOfUser.find( (user) => user.id == pageId)
-    
-        if (!userId)
-        {
-            response.send('Page not found')
-        }
-        else
-        {
-            response.json(userId.name)
-        }
+        response.send(request.user.name)
+    })
+    userRouter.param('id',(request,response,next,id)=>{
+        request.user = listOfUser[id]
+        next();
     })
     
     module.exports = userRouter
